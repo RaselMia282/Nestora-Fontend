@@ -1,0 +1,10 @@
+{
+    "workbench.colorCustomizations": {
+        "editor.colorDecorators": false,
+        "statusBar.noFolderBackground": "#3E253D",
+        "statusBar.noFolderForeground": "#FCF9FC"
+    },
+    "prisma-smart-formatter.typescript.defaultFormatter": "esbenp.prettier-vscode",
+    "prisma-smart-formatter.typescriptreact.defaultFormatter": "esbenp.prettier-vscode",
+    "prisma-smart-formatter.prisma.defaultFormatter": "Prisma.prisma"
+}
