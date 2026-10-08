@@ -2,6 +2,7 @@ import Categories from "@/src/components/home/categories";
 import Choose from "@/src/components/home/choose";
 import Hero from "@/src/components/home/hero";
 import Roommate from "@/src/components/home/roommate";
+import Testimonial from "@/src/components/home/testimonial";
 import Work from "@/src/components/home/work";
 
 export default function Home() {
@@ -12,6 +13,7 @@ export default function Home() {
       <Roommate></Roommate>
       <Work></Work>
       <Choose></Choose>
+      <Testimonial></Testimonial>
       
       
     </main>
