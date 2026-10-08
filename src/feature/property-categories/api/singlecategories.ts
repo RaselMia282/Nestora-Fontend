@@ -1,16 +1,16 @@
 import { apiClient } from "@/src/lib/ofetch";
 import { useQuery } from "@tanstack/react-query";
 
-export const getSingleCategories = async (id: string) => {
-  return apiClient(`categories/${id}`, {
+export const getSingleCategory = async (id: string) => {
+  return apiClient(`property-categories/${id}`, {
     method: "GET",
   });
 };
 
-export const useGetSingleCategories = (id: string) => {
+export const useGetSingleCategory = (id: string) => {
   return useQuery({
-    queryKey: ["categories", id],
-    queryFn: () => getSingleCategories(id),
+    queryKey: ["property-category", id],
+    queryFn: () => getSingleCategory(id),
     enabled: !!id,
   });
 };

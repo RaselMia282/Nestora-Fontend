@@ -1,5 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
-"use client"
+"use client";
+
+import Link from "next/link";
 import { useCategories } from "@/src/feature/property-categories/api/categories";
 import { ArrowUpRight } from "lucide-react";
 
@@ -38,15 +40,16 @@ const Categories = () => {
       {/* Categories Grid */}
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {categories?.data?.map((category: any) => (
-          <div
-            key={ category.id}
-            className="group relative h-80 w-full overflow-hidden rounded-2xl bg-gray-900 shadow-md transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl cursor-pointer"
+          <Link
+            key={category.id}
+            href={`/categories/${category.id}`}
+            className="group relative h-80 w-full overflow-hidden rounded-2xl bg-gray-900 shadow-md transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl cursor-pointer block"
           >
             {/* Background Image */}
             <img
               src={
-                category.categoryImg
-                
+                category.categoryImg ||
+                "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80"
               }
               alt={category.name || "Category"}
               className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110 opacity-85 group-hover:opacity-95"
@@ -72,7 +75,7 @@ const Categories = () => {
                 </p>
               )}
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </section>
