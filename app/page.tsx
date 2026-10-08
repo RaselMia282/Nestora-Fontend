@@ -3,6 +3,7 @@ import Choose from "@/src/components/home/choose";
 import Hero from "@/src/components/home/hero";
 import Roommate from "@/src/components/home/roommate";
 import Testimonial from "@/src/components/home/testimonial";
+import Verified from "@/src/components/home/verified";
 import Work from "@/src/components/home/work";
 
 export default function Home() {
@@ -14,6 +15,7 @@ export default function Home() {
       <Work></Work>
       <Choose></Choose>
       <Testimonial></Testimonial>
+      <Verified></Verified>
       
       
     </main>
