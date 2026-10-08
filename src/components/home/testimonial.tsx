@@ -5,23 +5,23 @@ const Testimonial = () => {
     const testimonials = [
         {
             rating: 5,
-            quote: `"Moving to New York without knowing anyone was terrifying. Nestora matched me with two PhD students whose cleaning habits and sleep schedules matched mine perfectly. It feels like home, not a compromise."`,
-            name: "Elena Vance",
-            role: "Resident in Brooklyn, NY",
+            quote: `"Finding a bachelor apartment in Dhaka used to be a nightmarish process. Nestora matched me with two university students whose daily routine and cleanliness habits aligned perfectly with mine. It truly feels like home."`,
+            name: "Rafid Hasan",
+            role: "Software Engineer • Dhanmondi, Dhaka",
             avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80"
         },
         {
             rating: 5,
-            quote: `"As an owner of three brownstone apartments, Nestora handles resident vetting and split rent disbursement flawlessly. I get my rental income deposited on the 1st without chasing four separate roommates."`,
-            name: "Marcus Thorne",
-            role: "Property Host in Austin, TX",
+            quote: `"Managing three rental flats in Uttara used to be stressful. Nestora handles background verification and tenant rent split payments seamlessly. I get my monthly rental income deposited on the 1st without hassle."`,
+            name: "M. A. Rahman",
+            role: "Property Owner • Uttara, Dhaka",
             avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80"
         },
         {
             rating: 5,
-            quote: `"The digital escrow protection gave me complete peace of mind. Getting my security deposit returned instantly after my digital check-out video was unlike any rental experience I've had in 7 years."`,
-            name: "Siddharth Rao",
-            role: "Resident in San Francisco, CA",
+            quote: `"I was worried about my security deposit when subletting a room in Mirpur. Thanks to digital agreements and escrow deposit safety, I moved in with total peace of mind and received my refund smoothly."`,
+            name: "Farhana Siddique",
+            role: "Resident • Mirpur-10, Dhaka",
             avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80"
         }
     ];
@@ -36,9 +36,12 @@ const Testimonial = () => {
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mt-1">
                     Loved by Residents and Property Owners
                 </h2>
+                <p className="text-slate-500 text-xs sm:text-sm mt-2 font-medium">
+                    Trusted by hundreds of renters and property owners across Dhaka.
+                </p>
             </div>
 
-            {/* Testimonials Grid (Responsive for all screens) */}
+            {/* Testimonials Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {testimonials.map((item, index) => (
                     <div 
