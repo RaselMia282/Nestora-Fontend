@@ -73,6 +73,7 @@ export default function RoomDetailsPage({
           Room details not found
         </h2>
         <p className="mt-2 text-slate-500">
+          
           The requested room could not be loaded or doesn't exist.
         </p>
         <Link
@@ -118,7 +119,7 @@ export default function RoomDetailsPage({
 
       {/* Dynamic Image Gallery */}
       <div className="grid gap-4 overflow-hidden rounded-3xl md:grid-cols-3">
-        <div className="relative h-80 md:col-span-2 md:h-[420px]">
+        <div className="relative h-80 md:col-span-2 md:h-105">
           {mainImage && (
             <Image
               src={mainImage}
@@ -135,7 +136,7 @@ export default function RoomDetailsPage({
 
         <div className="hidden grid-cols-1 gap-4 md:grid">
           {secondaryImage && (
-            <div className="relative h-[200px] w-full overflow-hidden rounded-2xl bg-slate-100">
+            <div className="relative h-50 w-full overflow-hidden rounded-2xl bg-slate-100">
               <Image
                 src={secondaryImage}
                 alt="Room secondary view"
@@ -146,7 +147,7 @@ export default function RoomDetailsPage({
           )}
 
           {property?.propertyImg && (
-            <div className="relative h-[200px] w-full overflow-hidden rounded-2xl bg-slate-100">
+            <div className="relative h-50 w-full overflow-hidden rounded-2xl bg-slate-100">
               <Image
                 src={property.propertyImg}
                 alt={property.title}
