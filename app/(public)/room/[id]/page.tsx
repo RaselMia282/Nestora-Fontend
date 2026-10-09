@@ -13,11 +13,12 @@ import {
   Building2,
   ArrowLeft,
   Calendar,
+  Sparkles,
   Send,
-  UserCheck,
 } from "lucide-react";
 import { useGetSingleRoom } from "@/src/feature/room/api/singleroom";
-
+import BookingModal from "@/src/components/modals/BookingsModal";
+import { useSubmitIdentityVerification } from "@/src/feature/application/application";
 
 
 export default function RoomDetailsPage({
@@ -28,34 +29,27 @@ export default function RoomDetailsPage({
   const { id } = use(params);
   const { data: roomResponse, isLoading, isError } = useGetSingleRoom(id);
 
-  // Application Form State
-  const [moveInDate, setMoveInDate] = useState("");
-  const [occupancyType, setOccupancyType] = useState("SINGLE");
-  const [message, setMessage] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  // Modal State
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
-  // Exact data mapping according to your API response structure
+  // TanStack Query Mutation Hook for NID Verification
+  const { mutateAsync: submitVerification } = useSubmitIdentityVerification();
+
+  // Exact data mapping according to API response structure
   const room = roomResponse?.data;
   const property = room?.property;
   const roomImages = room?.images || [];
 
-  const handleApplicationSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    const applicationPayload = {
-      roomId: id,
-      moveInDate,
-      occupancyType,
-      message,
-    };
-
-    console.log("Submitting Application Payload:", applicationPayload);
-
-    setTimeout(() => {
-      setIsSubmitting(false);
-      alert("Application submitted successfully!");
-    }, 1000);
+  // NID Verification Submission Handler using TanStack Query
+  const handleVerificationSubmit = async (formData: FormData) => {
+    try {
+      await submitVerification(formData);
+      alert("NID Verification submitted successfully!");
+      setIsBookingModalOpen(false);
+    } catch (error: any) {
+      console.error("Verification Error:", error);
+      alert(error?.message || "Failed to submit verification request.");
+    }
   };
 
   if (isLoading) {
@@ -73,7 +67,6 @@ export default function RoomDetailsPage({
           Room details not found
         </h2>
         <p className="mt-2 text-slate-500">
-          
           The requested room could not be loaded or doesn't exist.
         </p>
         <Link
@@ -104,13 +97,13 @@ export default function RoomDetailsPage({
         <div className="flex items-center gap-2">
           <button
             type="button"
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 cursor-pointer"
           >
             <Share2 className="h-4 w-4" />
           </button>
           <button
             type="button"
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 hover:text-red-500"
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 hover:text-red-500 cursor-pointer"
           >
             <Heart className="h-4 w-4" />
           </button>
@@ -238,7 +231,7 @@ export default function RoomDetailsPage({
           </div>
         </div>
 
-        {/* Right Column: Inline Application Form */}
+        {/* Right Column: Clean Sidebar Card with Booking Action */}
         <div>
           <div className="sticky top-8 rounded-3xl border border-slate-200 bg-white p-6 shadow-lg space-y-6">
             <div>
@@ -255,81 +248,42 @@ export default function RoomDetailsPage({
               </div>
             </div>
 
-            {/* Direct Application Form */}
-            <form
-              onSubmit={handleApplicationSubmit}
-              className="space-y-4 pt-2"
+            {/* Action Button */}
+            <button
+              onClick={() => setIsBookingModalOpen(true)}
+              className="w-full rounded-xl bg-emerald-600 py-3.5 text-center text-sm font-bold text-white shadow-md hover:bg-emerald-700 transition cursor-pointer flex items-center justify-center gap-2"
             >
-              <div className="border-t border-slate-100 pt-4">
-                <h4 className="text-sm font-bold text-slate-900 mb-3 flex items-center gap-1.5">
-                  <UserCheck className="w-4 h-4 text-emerald-600" />
-                  Apply For This Room
-                </h4>
+              <Send className="w-4 h-4" />
+              Apply for Booking
+            </button>
 
-                <div className="mb-3">
-                  <label className="block text-xs font-semibold text-slate-600 mb-1">
-                    Target Move-in Date
-                  </label>
-                  <input
-                    type="date"
-                    required
-                    value={moveInDate}
-                    onChange={(e) => setMoveInDate(e.target.value)}
-                    className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-emerald-500 focus:outline-none"
-                  />
-                </div>
-
-                <div className="mb-3">
-                  <label className="block text-xs font-semibold text-slate-600 mb-1">
-                    Occupancy Type
-                  </label>
-                  <select
-                    value={occupancyType}
-                    onChange={(e) => setOccupancyType(e.target.value)}
-                    className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-emerald-500 focus:outline-none bg-white"
-                  >
-                    <option value="SINGLE">Single Occupancy</option>
-                    <option value="SHARED">Shared Occupancy</option>
-                  </select>
-                </div>
-
-                <div className="mb-4">
-                  <label className="block text-xs font-semibold text-slate-600 mb-1">
-                    Message to Landlord (Optional)
-                  </label>
-                  <textarea
-                    rows={3}
-                    placeholder="Briefly introduce yourself (e.g. Student / Jobholder)..."
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    className="w-full rounded-xl border border-slate-200 p-3 text-sm focus:border-emerald-500 focus:outline-none resize-none"
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full rounded-xl bg-emerald-600 py-3 text-center text-sm font-bold text-white shadow-md transition hover:bg-emerald-700 disabled:opacity-50 flex items-center justify-center gap-2"
-                >
-                  <Send className="w-4 h-4" />
-                  {isSubmitting ? "Submitting..." : "Submit Application"}
-                </button>
-              </div>
-            </form>
-
-            <div className="border-t border-slate-100 pt-4 text-xs text-slate-500 space-y-2">
+            {/* Value Guarantees */}
+            <div className="border-t border-slate-100 pt-4 text-xs text-slate-500 space-y-2.5">
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+                <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" />
                 <span>Zero Hidden Application Fees</span>
               </div>
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+                <ShieldCheck className="h-4 w-4 text-emerald-600 shrink-0" />
                 <span>Verified Landlord Guarantee</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Sparkles className="h-4 w-4 text-emerald-600 shrink-0" />
+                <span>Instant NID Verification System</span>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Booking Modal Integration */}
+      <BookingModal
+        isOpen={isBookingModalOpen}
+        onClose={() => setIsBookingModalOpen(false)}
+        onSubmitVerification={handleVerificationSubmit}
+        monthlyRent={room.baseRent}
+        roomNumber={room.roomNumber}
+      />
     </main>
   );
 }

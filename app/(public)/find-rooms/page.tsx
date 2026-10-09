@@ -322,7 +322,7 @@ export default function FindRoomsPage() {
                             </p>
 
                             <div className="flex items-center text-xs text-gray-500 mb-1">
-                              <MapPin className="w-3.5 h-3.5 mr-1 text-emerald-600 flex-shrink-0" />
+                              <MapPin className="w-3.5 h-3.5 mr-1 text-emerald-600 shrink-0" />
                               <span className="truncate">
                                 {room.property?.address ||
                                   room.property?.city ||
@@ -336,10 +336,10 @@ export default function FindRoomsPage() {
                         <div className="p-5 pt-0">
                           <div className="pt-3 border-t border-gray-100 flex items-center justify-between">
                             <Link
-                              href={`/property/${room.propertyId}`}
+                              href={`/room/${room.id}`}
                               className="w-full py-2.5 text-center text-xs font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 rounded-xl transition-colors border border-emerald-200"
                             >
-                              View Property Details →
+                              View Room Details →
                             </Link>
                           </div>
                         </div>

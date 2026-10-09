@@ -16,8 +16,8 @@ import { useAuthStore } from "@/src/store/authStore";
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/find-rooms", label: "Find Rooms" },
-  { href: "/categories", label: "Categories" },
-  { href: "/how-it-works", label: "How it works" },
+
+  { href: "/about", label: "About" },
 ];
 
 export default function Navbar() {
@@ -51,6 +51,14 @@ export default function Navbar() {
     "User";
 
   const initial = displayName.charAt(0).toUpperCase();
+
+  // dynamic dashboard
+  const getDashboardHref = (): string => {
+    if (user?.role === "ADMIN") return "/admin/overview";
+    if (user?.role === "OWNER") return "/owner/overview";
+    if (user?.role === "TENANT") return "/tenant/overview";
+    return "/tenant/overview";
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-blue-700 bg-blue-600 text-white shadow-md">
@@ -125,7 +133,7 @@ export default function Navbar() {
                 </div>
 
                 <DropdownMenuItem
-                  onClick={() => router.push("/dashboard")}
+                  onClick={() => router.push(getDashboardHref())}
                   className="cursor-pointer rounded-lg py-2 font-medium hover:bg-blue-50 focus:bg-blue-50 focus:text-blue-600"
                 >
                   Dashboard
@@ -213,7 +221,7 @@ export default function Navbar() {
                 </div>
 
                 <Link
-                  href="/dashboard"
+                  href={getDashboardHref()}
                   className="py-1 hover:underline"
                   onClick={() => setMobileMenuOpen(false)}
                 >
