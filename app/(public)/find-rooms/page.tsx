@@ -11,11 +11,19 @@ import {
   X,
   DollarSign,
   Tag,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { useGetAllRoom } from "@/src/feature/room/api/room";
 
+
 export default function FindRoomsPage() {
-  const { data: response, isLoading, isError } = useGetAllRoom();
+  // Pagination State
+  const [page, setPage] = useState(1);
+  const limit = 10; // প্রতি পেজে ৯টি করে রুম দেখাবে
+
+  // Fetch Rooms with Page and Limit
+  const { data: response, isLoading, isError } = useGetAllRoom(page, limit);
 
   // Search & Filter States
   const [searchTerm, setSearchTerm] = useState("");
@@ -26,12 +34,12 @@ export default function FindRoomsPage() {
   // Mobile Filter Drawer State
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
-  // Extract rooms array from API response
+  // Extract rooms array & pagination meta from API response
   const rooms = response?.data?.data || [];
+  const meta = response?.data?.meta || { totalPages: 1, pageNumber: 1 };
 
-  // Filtering Logic with Property Name & Room Number
+  // Filtering Logic
   const filteredRooms = rooms.filter((room: any) => {
-    // 1. Search Query Filter (Search by Room Number, Type, Property Name, or Property ID)
     const search = searchTerm.toLowerCase().trim();
     const matchesSearch =
       !search ||
@@ -41,17 +49,14 @@ export default function FindRoomsPage() {
       room.property?.name?.toLowerCase().includes(search) ||
       room.propertyId?.toLowerCase().includes(search);
 
-    // 2. Room Type Filter (SINGLE, DOUBLE, etc.)
     const matchesRoomType =
       roomType === "ALL" ||
       room.roomType?.toUpperCase() === roomType.toUpperCase();
 
-    // 3. Status Filter (AVAILABLE, BOOKED, etc.)
     const matchesStatus =
       statusFilter === "ALL" ||
       room.status?.toUpperCase() === statusFilter.toUpperCase();
 
-    // 4. Base Rent Filter
     const rentValue = Number(room.baseRent) || 0;
     const matchesRent = rentValue <= maxRent;
 
@@ -216,7 +221,7 @@ export default function FindRoomsPage() {
                 <span className="font-bold text-gray-900">
                   {filteredRooms.length}
                 </span>{" "}
-                available rooms
+                rooms on this page
               </p>
             </div>
 
@@ -264,86 +269,116 @@ export default function FindRoomsPage() {
 
             {/* Rooms Cards List */}
             {!isLoading && !isError && filteredRooms.length > 0 && (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredRooms.map((room: any) => {
-                  const primaryImage =
-                    room.images && room.images.length > 0
-                      ? room.images[0].imageUrl
-                      : "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=800";
+              <>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {filteredRooms.map((room: any) => {
+                    const primaryImage =
+                      room.images && room.images.length > 0
+                        ? room.images[0].imageUrl
+                        : "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=800";
 
-                  // Extract Property Name if available, else fallback
-                  const propertyName =
-                    room.property?.title ||
-                    room.property?.name ||
-                    `Property #${room.propertyId?.slice(0, 6)}`;
+                    const propertyName =
+                      room.property?.title ||
+                      room.property?.name ||
+                      `Apartment Property ${room.propertyId?.slice(0, 4)}`;
 
-                  return (
-                    <div
-                      key={room.id}
-                      className="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-2xs hover:shadow-md transition-all group flex flex-col justify-between"
+                    return (
+                      <div
+                        key={room.id}
+                        className="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-2xs hover:shadow-md transition-all group flex flex-col justify-between"
+                      >
+                        <div>
+                          {/* Room Image */}
+                          <div className="relative h-48 w-full bg-gray-100 overflow-hidden">
+                            <img
+                              src={primaryImage}
+                              alt={`Room ${room.roomNumber}`}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            />
+                            <span className="absolute bottom-3 left-3 bg-emerald-600 text-white text-xs font-extrabold px-3 py-1 rounded-full shadow-sm">
+                              ৳{room.baseRent} / month
+                            </span>
+                            {room.status && (
+                              <span className="absolute top-3 right-3 bg-white/90 backdrop-blur-xs text-emerald-700 text-[10px] font-bold px-2.5 py-1 rounded-full border border-emerald-200">
+                                {room.status}
+                              </span>
+                            )}
+                          </div>
+
+                          {/* Room Content */}
+                          <div className="p-5">
+                            <div className="flex items-center gap-2 mb-2">
+                              <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                {room.roomType}
+                              </span>
+                            </div>
+
+                            <h3 className="text-base font-bold text-gray-900 mb-0.5 line-clamp-1">
+                              {propertyName}
+                            </h3>
+
+                            <p className="text-xs font-semibold text-emerald-600 mb-2">
+                              Room No: {room.roomNumber}
+                            </p>
+
+                            <div className="flex items-center text-xs text-gray-500 mb-1">
+                              <MapPin className="w-3.5 h-3.5 mr-1 text-emerald-600 flex-shrink-0" />
+                              <span className="truncate">
+                                {room.property?.address ||
+                                  room.property?.city ||
+                                  "Road 10, apartment Residential Area"}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Footer Action */}
+                        <div className="p-5 pt-0">
+                          <div className="pt-3 border-t border-gray-100 flex items-center justify-between">
+                            <Link
+                              href={`/property/${room.propertyId}`}
+                              className="w-full py-2.5 text-center text-xs font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 rounded-xl transition-colors border border-emerald-200"
+                            >
+                              View Property Details →
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Pagination Controls */}
+                {meta.totalPages > 1 && (
+                  <div className="flex items-center justify-center gap-3 pt-8 pb-4">
+                    <button
+                      onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+                      disabled={page === 1}
+                      className="p-2.5 rounded-2xl border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer flex items-center gap-1 text-xs font-semibold"
                     >
-                      <div>
-                        {/* Room Image */}
-                        <div className="relative h-48 w-full bg-gray-100 overflow-hidden">
-                          <img
-                            src={primaryImage}
-                            alt={`Room ${room.roomNumber}`}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                          />
-                          <span className="absolute bottom-3 left-3 bg-emerald-600 text-white text-xs font-extrabold px-3 py-1 rounded-full shadow-sm">
-                            ৳{room.baseRent} / month
-                          </span>
-                          {room.status && (
-                            <span className="absolute top-3 right-3 bg-white/90 backdrop-blur-xs text-emerald-700 text-[10px] font-bold px-2.5 py-1 rounded-full border border-emerald-200">
-                              {room.status}
-                            </span>
-                          )}
-                        </div>
+                      <ChevronLeft className="w-4 h-4" />
+                      Previous
+                    </button>
 
-                        {/* Room Content */}
-                        <div className="p-5">
-                          <div className="flex items-center gap-2 mb-2">
-                            <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200">
-                              {room.roomType}
-                            </span>
-                          </div>
+                    <span className="text-xs font-bold text-gray-700 bg-white px-4 py-2.5 rounded-2xl border border-gray-200">
+                      Page {page} of {meta.totalPages}
+                    </span>
 
-                          {/* Property Name */}
-                          <h3 className="text-base font-bold text-gray-900 mb-0.5 line-clamp-1">
-                            {propertyName}
-                          </h3>
-
-                          {/* Room Number */}
-                          <p className="text-xs font-semibold text-emerald-600 mb-2">
-                            Room No: {room.roomNumber}
-                          </p>
-
-                          <div className="flex items-center text-xs text-gray-500 mb-1">
-                            <MapPin className="w-3.5 h-3.5 mr-1 text-emerald-600 flex-shrink-0" />
-                            <span className="truncate">
-                              {room.property?.address ||
-                                room.property?.city ||
-                                "Location Available on Detail Page"}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Footer Action */}
-                      <div className="p-5 pt-0">
-                        <div className="pt-3 border-t border-gray-100 flex items-center justify-between">
-                          <Link
-                            href={`/property/${room.propertyId}`}
-                            className="w-full py-2.5 text-center text-xs font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 rounded-xl transition-colors border border-emerald-200"
-                          >
-                            View Property Details →
-                          </Link>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
+                    <button
+                      onClick={() =>
+                        setPage((prev) =>
+                          Math.min(prev + 1, meta.totalPages)
+                        )
+                      }
+                      disabled={page === meta.totalPages}
+                      className="p-2.5 rounded-2xl border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer flex items-center gap-1 text-xs font-semibold"
+                    >
+                      Next
+                      <ChevronRight className="w-4 h-4" />
+                    </button>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>
