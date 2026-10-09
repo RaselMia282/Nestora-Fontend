@@ -16,7 +16,7 @@ export const useVerifyIdentity = () => {
   return useMutation({
     mutationFn: verifyIdentity,
     onSuccess: () => {
-      // NID আপলোড সফল হলে সাথে সাথে useGetMyVerification এর ক্যাশ রিফ্রেশ করবে
+     
       queryClient.invalidateQueries({ queryKey: ["my-verification"] });
     },
   });
