@@ -104,7 +104,7 @@ export default function CategoryDetailsPage({
 
                 <div className="pt-3 border-t border-gray-100 flex items-center justify-between">
                   <Link
-                    href={`/rooms/${property.id}`}
+                    href={`/property/${property.id}`}
                     className="text-sm font-medium text-blue-600 hover:text-blue-700"
                   >
                     View Details →
