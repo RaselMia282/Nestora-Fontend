@@ -15,7 +15,7 @@ import { useAuthStore } from "@/src/store/authStore";
 
 const navLinks = [
   { href: "/", label: "Home" },
-  { href: "/rooms", label: "Find Rooms" },
+  { href: "/find-rooms", label: "Find Rooms" },
   { href: "/categories", label: "Categories" },
   { href: "/how-it-works", label: "How it works" },
 ];
