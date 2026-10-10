@@ -34,7 +34,8 @@ import { ofetch } from "ofetch";
 
 export const apiClient = ofetch.create({
   // সরাসরি ব্যাকএন্ডের সম্পূর্ণ বেস ইউআরএল বসিয়ে দিন
-  baseURL: "http://localhost:8000/api/v1",
+  baseURL:  process.env.NEXT_PUBLIC_API_BASE_URL ||
+  "http://localhost:8000/api/v1",
 
   onRequest({ options }) {
     if (typeof window !== "undefined") {
