@@ -41,23 +41,26 @@ export default function RegisterForm() {
           console.log("Registration successful:", res);
           setUser(res.data);
           form.reset();
-          router.push("/")
+          router.push("/");
         },
       });
     },
   });
 
-//   const handleGoogleSignUp = () => {
-//     // Backend Google OAuth URL Redirect
-//     window.location.href = `${process.env.NEXT_PUBLIC_BASE_API}/auth/google`;
-//   };
+  //   const handleGoogleSignUp = () => {
+  //     // Backend Google OAuth URL Redirect
+  //     window.location.href = `${process.env.NEXT_PUBLIC_BASE_API}/auth/google`;
+  //   };
 
   return (
     <div className="min-h-screen grid grid-cols-1 lg:grid-cols-12 bg-slate-50">
       {/* Left Column: Branding / Info Banner (Desktop Only) */}
       <div className="hidden lg:flex lg:col-span-5 bg-gradient-to-br from-indigo-700 via-indigo-600 to-blue-700 text-white p-12 flex-col justify-between relative overflow-hidden">
         <div className="relative z-10">
-          <Link href="/" className="text-3xl font-extrabold tracking-tight flex items-center gap-2">
+          <Link
+            href="/"
+            className="text-3xl font-extrabold tracking-tight flex items-center gap-2"
+          >
             <Building2 className="w-8 h-8 text-indigo-200" />
             <span>Nestora</span>
           </Link>
@@ -67,7 +70,8 @@ export default function RegisterForm() {
               Find your next home or tenant with confidence.
             </h1>
             <p className="text-indigo-100 text-base leading-relaxed">
-              Join thousands of users managing rental properties, room listings, and roommate matching seamlessly on Nestora.
+              Join thousands of users managing rental properties, room listings,
+              and roommate matching seamlessly on Nestora.
             </p>
 
             <div className="pt-8 space-y-4">
@@ -75,13 +79,17 @@ export default function RegisterForm() {
                 <div className="p-2 bg-indigo-500/30 rounded-lg backdrop-blur-md">
                   <ShieldCheck className="w-5 h-5 text-indigo-200" />
                 </div>
-                <span className="text-sm font-medium">Verified tenant & landlord profiles</span>
+                <span className="text-sm font-medium">
+                  Verified tenant & landlord profiles
+                </span>
               </div>
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-indigo-500/30 rounded-lg backdrop-blur-md">
                   <UserCheck className="w-5 h-5 text-indigo-200" />
                 </div>
-                <span className="text-sm font-medium">Automated roommate matching system</span>
+                <span className="text-sm font-medium">
+                  Automated roommate matching system
+                </span>
               </div>
             </div>
           </div>
@@ -101,10 +109,15 @@ export default function RegisterForm() {
       <div className="lg:col-span-7 flex items-center justify-center p-6 sm:p-12">
         <div className="max-w-xl w-full bg-white p-8 sm:p-10 rounded-2xl shadow-xl border border-slate-100">
           <div className="mb-8">
-            <h2 className="text-3xl font-bold text-slate-900 tracking-tight">Create an Account</h2>
+            <h2 className="text-3xl font-bold text-slate-900 tracking-tight">
+              Create an Account
+            </h2>
             <p className="text-sm text-slate-500 mt-2">
               Already have an account?{" "}
-              <Link href="/login" className="text-indigo-600 hover:text-indigo-700 font-semibold transition">
+              <Link
+                href="/login"
+                className="text-indigo-600 hover:text-indigo-700 font-semibold transition"
+              >
                 Sign in
               </Link>
             </p>
@@ -142,7 +155,9 @@ export default function RegisterForm() {
               <div className="w-full border-t border-slate-200" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-white px-3 text-slate-400 font-medium">Or register with email</span>
+              <span className="bg-white px-3 text-slate-400 font-medium">
+                Or register with email
+              </span>
             </div>
           </div>
 
@@ -222,7 +237,9 @@ export default function RegisterForm() {
             >
               {(field) => (
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1">Email Address</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">
+                    Email Address
+                  </label>
                   <input
                     name={field.name}
                     value={field.state.value}
@@ -251,7 +268,9 @@ export default function RegisterForm() {
               >
                 {(field) => (
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">Phone Number</label>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">
+                      Phone Number
+                    </label>
                     <input
                       name={field.name}
                       value={field.state.value}
@@ -275,11 +294,15 @@ export default function RegisterForm() {
               <form.Field name="gender">
                 {(field) => (
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">Gender</label>
+                    <label className="block text-sm font-medium text-slate-700 mb-1">
+                      Gender
+                    </label>
                     <select
                       name={field.name}
                       value={field.state.value}
-                      onChange={(e) => field.handleChange(e.target.value as Gender)}
+                      onChange={(e) =>
+                        field.handleChange(e.target.value as Gender)
+                      }
                       className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-slate-900 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 transition"
                     >
                       <option value={Gender.MALE}>Male</option>
@@ -294,15 +317,22 @@ export default function RegisterForm() {
             <form.Field name="role">
               {(field) => (
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1">I want to register as</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">
+                    I want to register as
+                  </label>
                   <select
                     name={field.name}
                     value={field.state.value}
                     onChange={(e) => field.handleChange(e.target.value as Role)}
                     className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-slate-900 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-600 transition"
                   >
-                    <option value={Role.TENANT}>Tenant (Searching for Rooms)</option>
-                    <option value={Role.ADMIN}>Landlord / Owner (Posting Rooms)</option>
+                    <option value={Role.TENANT}>
+                      Tenant (Searching for Rooms)
+                    </option>
+                    <option value={Role.ADMIN}>Admin(Manage All)</option>
+                    <option value={Role.OWNER}>
+                      Owner(Manage Property and Rooms)
+                    </option>
                   </select>
                 </div>
               )}
@@ -315,7 +345,9 @@ export default function RegisterForm() {
             >
               {(field) => (
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1">Password</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">
+                    Password
+                  </label>
                   <div className="relative">
                     <input
                       name={field.name}
@@ -331,7 +363,11 @@ export default function RegisterForm() {
                       onClick={() => setShowPassword(!showPassword)}
                       className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition"
                     >
-                      {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                      {showPassword ? (
+                        <EyeOff className="w-5 h-5" />
+                      ) : (
+                        <Eye className="w-5 h-5" />
+                      )}
                     </button>
                   </div>
                   {field.state.meta.errors.length > 0 && (
