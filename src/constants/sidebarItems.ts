@@ -57,7 +57,7 @@ export const SidebarItems: Record<Role, SidebarItem[]> = {
     },
     {
       title: "My Applications",
-      href: "/tenant/applications",
+      href: "/tenant/application",
       icon: FileText,
     },
     {

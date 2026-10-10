@@ -1,16 +1,16 @@
-import { apiClient } from "@/src/lib/ofetch";
-import { useQuery } from "@tanstack/react-query";
-import { AdminDashboardOverviewResponse } from "../interface";
+// import { apiClient } from "@/src/lib/ofetch";
+// import { useQuery } from "@tanstack/react-query";
 
-export const adminOverview = () => {
-  return apiClient<AdminDashboardOverviewResponse>("/admin-overview", {
-    method: "GET",
-  });
-};
 
-export const useTenantOverview = () => {
-  return useQuery({
-    queryKey: ["admin-overview"],
-    queryFn: adminOverview,
-  });
-};
+// export const adminOverview = () => {
+//   return apiClient<AdminDashboardOverviewResponse>("/admin-overview", {
+//     method: "GET",
+//   });
+// };
+
+// export const useTenantOverview = () => {
+//   return useQuery({
+//     queryKey: ["admin-overview"],
+//     queryFn: adminOverview,
+//   });
+// };
