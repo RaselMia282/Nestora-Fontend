@@ -40,17 +40,18 @@ export default function LoginForm() {
 
             // Save access token
             if (res?.data?.accessToken) {
-              localStorage.setItem(
-                "accessToken",
-                res.data.accessToken,
-              );
+              localStorage.setItem("accessToken", res.data.accessToken);
             }
-
+            console.log("STEP 1: Before getMe");
             // Get logged in user
             const meResponse = await getMe();
+            console.log("GET ME RESPONSE:", meResponse);
+            console.log("USER DATA:", meResponse.data);
 
             // Save user in Zustand
             setUser(meResponse.data);
+            console.log("AUTH STORE AFTER LOGIN:", useAuthStore.getState());
+            console.log("ZUSTAND USER:", useAuthStore.getState().user);
 
             // Reset form
             form.reset();
@@ -110,10 +111,7 @@ export default function LoginForm() {
 
                 // Save access token
                 if (res?.data?.accessToken) {
-                  localStorage.setItem(
-                    "accessToken",
-                    res.data.accessToken,
-                  );
+                  localStorage.setItem("accessToken", res.data.accessToken);
                 }
 
                 // Get logged in user
@@ -127,10 +125,7 @@ export default function LoginForm() {
                 // Redirect home
                 router.push("/");
               } catch (error) {
-                console.error(
-                  "Google authentication error:",
-                  error,
-                );
+                console.error("Google authentication error:", error);
 
                 alert("Google sign-in failed on backend.");
               }
@@ -176,9 +171,7 @@ export default function LoginForm() {
                   name={field.name}
                   value={field.state.value}
                   onBlur={field.handleBlur}
-                  onChange={(e) =>
-                    field.handleChange(e.target.value)
-                  }
+                  onChange={(e) => field.handleChange(e.target.value)}
                   placeholder="name@example.com"
                   className="w-full rounded-xl border border-gray-300 bg-gray-50/60 px-4 py-2.5 text-sm transition placeholder:text-gray-400 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/30"
                 />
@@ -215,18 +208,14 @@ export default function LoginForm() {
                     name={field.name}
                     value={field.state.value}
                     onBlur={field.handleBlur}
-                    onChange={(e) =>
-                      field.handleChange(e.target.value)
-                    }
+                    onChange={(e) => field.handleChange(e.target.value)}
                     placeholder="••••••••"
                     className="w-full rounded-xl border border-gray-300 bg-gray-50/60 py-2.5 pl-4 pr-11 text-sm transition placeholder:text-gray-400 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/30"
                   />
 
                   <button
                     type="button"
-                    onClick={() =>
-                      setShowPassword(!showPassword)
-                    }
+                    onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:outline-none"
                   >
                     {showPassword ? (
@@ -248,24 +237,15 @@ export default function LoginForm() {
 
           {/* Submit Button */}
           <form.Subscribe
-            selector={(state) => [
-              state.canSubmit,
-              state.isSubmitting,
-            ]}
+            selector={(state) => [state.canSubmit, state.isSubmitting]}
           >
             {([canSubmit, isSubmitting]) => (
               <button
                 type="submit"
-                disabled={
-                  !canSubmit ||
-                  isSubmitting ||
-                  isPending
-                }
+                disabled={!canSubmit || isSubmitting || isPending}
                 className="mt-2 w-full rounded-xl bg-blue-600 py-3 text-sm font-semibold text-white shadow-md shadow-blue-500/25 transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500/40 active:scale-[0.99] disabled:opacity-50"
               >
-                {isSubmitting || isPending
-                  ? "Signing in..."
-                  : "Sign In"}
+                {isSubmitting || isPending ? "Signing in..." : "Sign In"}
               </button>
             )}
           </form.Subscribe>

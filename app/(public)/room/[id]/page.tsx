@@ -19,7 +19,7 @@ import {
 import { useGetSingleRoom } from "@/src/feature/room/api/singleroom";
 import BookingModal from "@/src/components/modals/BookingsModal";
 import { useSubmitIdentityVerification } from "@/src/feature/application/application";
-
+import { apiClient } from "@/src/lib/ofetch";
 
 export default function RoomDetailsPage({
   params,
@@ -40,15 +40,30 @@ export default function RoomDetailsPage({
   const property = room?.property;
   const roomImages = room?.images || [];
 
-  // NID Verification Submission Handler using TanStack Query
+  // Verification & Room Application Submission Handler
   const handleVerificationSubmit = async (formData: FormData) => {
     try {
-      await submitVerification(formData);
-      alert("NID Verification submitted successfully!");
+      // Step 1: Submit NID Verification (Already verified হলে এরর ইগনোর করবে)
+      try {
+        await submitVerification(formData);
+      } catch (verifErr) {
+        console.log("Verification note or already exists:", verifErr);
+      }
+
+      // Step 2: Directly submit Room Application to backend
+      const applicationRes = await apiClient("/application", {
+        method: "POST",
+        body: {
+          roomId: room.id,
+        },
+      });
+
+      console.log("Application Submitted Response:", applicationRes);
+      alert("Room Application submitted successfully!");
       setIsBookingModalOpen(false);
     } catch (error: any) {
-      console.error("Verification Error:", error);
-      alert(error?.message || "Failed to submit verification request.");
+      console.error("Submission Error:", error);
+      alert(error?.message || "Failed to submit room application.");
     }
   };
 

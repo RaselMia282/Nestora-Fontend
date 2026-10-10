@@ -58,3 +58,60 @@ export interface VerificationStatusPayload {
   id: string;
   status: "VERIFIED" | "REJECTED";
 }
+
+
+
+
+export type ApplicationStatus = "PENDING" | "APPROVED" | "REJECTED" | "CANCELLED";
+
+export interface Application {
+  id: string;
+  tenantId: string;
+  propertyId?: string;
+  roomId?: string;
+  status: ApplicationStatus;
+  message?: string;
+  createdAt: string;
+  updatedAt: string;
+  tenant?: {
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+  };
+  property?: {
+    id: string;
+    title: string;
+    location: string;
+    rent: number;
+  };
+  room?: {
+    id: string;
+    roomNumber: string;
+    rent: number;
+  };
+}
+
+export interface UpdateApplicationStatusPayload {
+  id: string;
+  status: ApplicationStatus;
+}
+
+
+
+export interface Property {
+  id: string;
+  title: string;
+  description?: string;
+  location: string;
+  rent: number;
+  propertyImg?: string;
+  ownerId: string;
+  createdAt: string;
+  updatedAt: string;
+  owner?: {
+    id: string;
+    name: string;
+    email: string;
+  };
+}

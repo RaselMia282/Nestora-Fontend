@@ -18,8 +18,6 @@
 //   );
 // }
 
-
-
 "use client";
 
 import Sidebar from "@/src/components/dashboard/Sidebar";
@@ -32,6 +30,11 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const user = useAuthStore((state) => state.user);
+  const hasHydrated = useAuthStore((state) => state.hasHydrated);
+
+  if (!hasHydrated) {
+    return <div className="min-h-screen bg-slate-50" />;
+  }
 
   if (!user) {
     return (
@@ -47,9 +50,8 @@ export default function DashboardLayout({
     <div className="flex min-h-screen bg-slate-50">
       <Sidebar role={user.role} />
 
-      <main className="min-w-0 flex-1 overflow-y-auto p-8">
-        {children}
-      </main>
+      <main className="min-w-0 flex-1 overflow-y-auto p-8">{children}</main>
     </div>
   );
 }
+

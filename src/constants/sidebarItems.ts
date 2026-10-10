@@ -38,16 +38,16 @@ export const SidebarItems: Record<Role, SidebarItem[]> = {
       href: "/owner/overview",
       icon: LayoutDashboard,
     },
-    {
-      title: "My Properties",
-      href: "/owner/properties",
-      icon: Home,
-    },
-    {
-      title: "Booking Requests",
-      href: "/owner/applications",
-      icon: FileText,
-    },
+    // {
+    //   title: "My Properties",
+    //   href: "/owner/properties",
+    //   icon: Home,
+    // },
+    // {
+    //   title: "Booking Requests",
+    //   href: "/owner/applications",
+    //   icon: FileText,
+    // },
   ],
   TENANT: [
     {

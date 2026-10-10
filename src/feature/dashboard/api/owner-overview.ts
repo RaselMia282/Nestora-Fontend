@@ -1,9 +1,9 @@
 import { apiClient } from "@/src/lib/ofetch";
 import { useQuery } from "@tanstack/react-query";
-import { OwnerDashboardOverviewResponse } from "../interface";
+
 
 export const ownerOverview = () => {
-  return apiClient<OwnerDashboardOverviewResponse>("/owner-overview", {
+  return apiClient("/owner-overview", {
     method: "GET",
   });
 };
