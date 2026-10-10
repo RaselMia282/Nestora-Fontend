@@ -12,9 +12,6 @@ export type TenantOverview = {
   pendingPayments: number;
 };
 
-
-
-
 export interface AdminOverviewData {
   totalUsers: number;
   totalProperties: number;
@@ -24,10 +21,6 @@ export interface AdminOverviewData {
   completedPayments: number;
   pendingNidVerifications: number;
 }
-
-
-
-
 
 export interface User {
   id: string;
@@ -43,4 +36,25 @@ export interface GetAdminUsersResponse {
   statusCode: number;
   message: string;
   data: User[];
+}
+
+export interface NidVerification {
+  id: string;
+  userId: string;
+  nidFront: string;
+  nidBack: string;
+  status: "PENDING" | "VERIFIED" | "REJECTED";
+  createdAt: string;
+  updatedAt: string;
+  user?: {
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+  };
+}
+
+export interface VerificationStatusPayload {
+  id: string;
+  status: "VERIFIED" | "REJECTED";
 }
